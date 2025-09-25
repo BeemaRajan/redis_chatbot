@@ -11,7 +11,7 @@ class Chatbot:
     def introduce(self):
         # Provide an introduction and list of commands
         intro = """
-        Hi! This is BeemaBot9000. I'm here to support a variety of needs.
+        Hi! I am RedisHelper. I'm here to support a variety of needs.
         Here are the commands this bot supports:
         !help: List of commands
         !weather <city>: Weather update
@@ -23,6 +23,7 @@ class Chatbot:
 
     def identify(self, username, age, gender, location):
         # Store user details in Redis
+        # set userNames 'username'
         pass
 
     def join_channel(self, channel):
