@@ -11,8 +11,19 @@ class Chatbot:
     def introduce(self):
         # Provide an introduction and list of commands
         intro = """
-        Hi! I am RedisHelper. I'm here to support a variety of needs. Here are the commands I support:
-        !help
+        Hello! I'm RedisBot, and I'm here to make your messaging experience smoother. 
+        I handle the behind-the-scenes magic: storing your messages, managing channels, and serving up interesting tidbits whenever you need them. 
+        Here are the commands I support:
+                !help: List of commands
+                !fact: Random fun fact
+                !weather <city>: Weather update
+                !whoami: Your user information
+                !updateinfo: Update your user information
+                !joinchannel <channel>: Join a channel
+                !sendmessage <channel>: Send a message to a channel
+                !leavechannel <channel>: Leave a channel
+                !readmessages <channel>: Read all messages from a channel
+                !directmessage: Message the bot
         
         """
         print(intro)
@@ -143,9 +154,9 @@ class Chatbot:
         while True:
             message = input("\nPlease enter your message: ")
             self.client.publish("chatbot:dm", message)
-            print(f"[user]: {message}")
+            print(f"[{self.username}]: {message}")
 
-            print(f"[bot name]: While I would love to chat with you, I must get back to keeping track of everyone's usernames and messages!")
+            print(f"[Redisbot]: While I would love to chat with you, I must get back to keeping track of everyone's usernames and messages!")
             break # added the while loop so if I wanted to expand on this feature
 
     def process_commands(self, message):
