@@ -15,9 +15,10 @@ services:
         - redis
       volumes:
         - ./scripts:/app
+      working_dir: /app
       networks:
         - app-network
-      command: bash -c "pip install redis && python mp1_beema.py"  # Install redis and run script
+      command: bash -c "pip install redis && tail -f /dev/null"
 
 
 networks:

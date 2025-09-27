@@ -14,16 +14,16 @@ class Chatbot:
         Hello! I'm RedisBot, and I'm here to make your messaging experience smoother. 
         I handle the behind-the-scenes magic: storing your messages, managing channels, and serving up interesting tidbits whenever you need them. 
         Here are the commands I support:
-                !help: List of commands
-                !fact: Random fun fact
-                !weather <city>: Weather update
-                !whoami: Your user information
-                !updateinfo: Update your user information
-                !joinchannel <channel>: Join a channel
-                !sendmessage <channel>: Send a message to a channel
-                !leavechannel <channel>: Leave a channel
-                !readmessages <channel>: Read all messages from a channel
-                !directmessage: Message the bot
+            !help: List of commands
+            !fact: Random fun fact
+            !weather <city>: Weather update
+            !whoami: Your user information
+            !updateinfo: Update your user information
+            !joinchannel <channel>: Join a channel
+            !sendmessage <channel>: Send a message to a channel
+            !leavechannel <channel>: Leave a channel
+            !readmessages <channel>: Read all messages from a channel
+            !directmessage: Message the bot
         
         """
         print(intro)
@@ -41,7 +41,7 @@ class Chatbot:
     def get_random_fact(self):
         # Get a random fact
         fact = self.client.srandmember("random:facts")
-        print(f"{fact}\n")
+        print(f"\n{fact}")
     
     def store_weather_data(self):
         # Save weather data for cities
@@ -62,13 +62,13 @@ class Chatbot:
         weather_data = self.client.hget("weather", city)
 
         if weather_data:
-            print(f"Weather in {city}: {weather_data}")
+            print(f"\tWeather in {city}: {weather_data}")
         else:
-            print(f"Weather data for {city} is not available. Try: nashville, new york, chicago, san francisco, miami, plovdiv")
+            print(f"\tWeather data for {city} is not available. Try: nashville, new york, chicago, san francisco, miami, plovdiv")
 
     def identify(self):
         # Store user details in Redis
-        username = input("Please enter a username: ")
+        username = input("\nPlease enter a username: ")
         age = input("Please enter your age: ")
         gender = input("Please enter your gender: ")
         location = input("Please enter your location: ")
@@ -154,7 +154,7 @@ class Chatbot:
         while True:
             message = input("\nPlease enter your message: ")
             self.client.publish("chatbot:dm", message)
-            print(f"[{self.username}]: {message}")
+            print(f"\n[{self.username}]: {message}")
 
             print(f"[Redisbot]: While I would love to chat with you, I must get back to keeping track of everyone's usernames and messages!")
             break # added the while loop so if I wanted to expand on this feature
@@ -241,9 +241,9 @@ if __name__ == "__main__":
     bot.store_fun_facts()
 
     # Force user to set username and info upon opening
-    print("\nBefore we begin, please enter your user info: \n")
+    print("\nBefore we begin, please enter your user info: ")
     bot.identify()
-    print("\nThank you for registering!\n")
+    print("\nThank you for registering!")
 
     bot.introduce()
 
@@ -252,9 +252,9 @@ if __name__ == "__main__":
         prompt = input("\nPlease enter a command (or '!quit' to exit): ")
         
         if prompt.lower() == '!quit':
-            print("Goodbye!")
+            print("\nGoodbye!\n")
             break
         elif prompt.startswith("!"):
             bot.process_commands(prompt)
         else:
-            print("Please enter a command. Use !help to see all commands.")
+            print("\nPlease enter a command. Use !help to see all commands.")
