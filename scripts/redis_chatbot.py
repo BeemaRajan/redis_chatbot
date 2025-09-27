@@ -24,7 +24,6 @@ class Chatbot:
             !leavechannel <channel>: Leave a channel
             !readmessages <channel>: Read all messages from a channel
             !directmessage: Message the bot
-        
         """
         print(intro)
 
@@ -41,7 +40,7 @@ class Chatbot:
     def get_random_fact(self):
         # Get a random fact
         fact = self.client.srandmember("random:facts")
-        print(f"\n{fact}")
+        print(f"\n{fact.decode('utf-8')}")
     
     def store_weather_data(self):
         # Save weather data for cities
@@ -59,7 +58,7 @@ class Chatbot:
     def get_weather_data(self, city):
         # Get weather data for a particular city
         city = city.lower()
-        weather_data = self.client.hget("weather", city)
+        weather_data = self.client.hget("weather", city.decode('utf-8'))
 
         if weather_data:
             print(f"\tWeather in {city}: {weather_data}")
@@ -122,7 +121,7 @@ class Chatbot:
                 print("Stopped sending messages.")
                 break
                 
-            self.client.publish(channel, message)
+            self.client.publish(channel, formatted_message)
             self.save_message(channel, self.username, message)
             print("Message sent!")
 
@@ -145,8 +144,8 @@ class Chatbot:
             return
 
         print(f"\n--- Messages from {channel} ---")
-        for message in messages:  # Note to self: possibly reverse the list?
-            print(message)
+        for message in messages:
+            print(message.decode('utf-8'))
 
     def direct_message(self):
         # Send a direct message to the chatbot
@@ -154,7 +153,7 @@ class Chatbot:
         while True:
             message = input("\nPlease enter your message: ")
             self.client.publish("chatbot:dm", message)
-            print(f"\n[{self.username}]: {message}")
+            print(f"\n[{self.username.decode('utf-8')}]: {message.decode('utf-8')}")
 
             print(f"[Redisbot]: While I would love to chat with you, I must get back to keeping track of everyone's usernames and messages!")
             break # added the while loop so if I wanted to expand on this feature
