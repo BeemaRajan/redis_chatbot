@@ -51,9 +51,9 @@ class Chatbot:
         weather_data = self.client.hget("weather", city)
 
         if weather_data:
-            return f"Weather in {city}: {weather_data}"
+            print(f"Weather in {city}: {weather_data}")
         else:
-            return f"Weather data for {city} is not available. Try: nashville, new york, chicago, san francisco, miami"
+            print(f"Weather data for {city} is not available. Try: nashville, new york, chicago, san francisco, miami, plovdiv")
 
     def identify(self):
         # Store user details in Redis
@@ -88,11 +88,13 @@ class Chatbot:
     def join_channel(self, channel):
         # Join a channel
         self.pubsub.subscribe(channel)
+        print(f"Listening to channel: {channel} (type '!quit' to exit)...")
 
-        print(f"Listening to channel: {channel} ...")
-        for message in self.pubsub.listen():
-            if message['type'] == 'message':
-                print(f"[{channel}] {message['data'].decode('utf-8')}")
+        while True:
+            print(f"Listening to channel: {channel} ...")
+            for message in self.pubsub.listen():
+                if message['type'] == 'message':
+                    print(f"[{channel}] {message['data'].decode('utf-8')}")
 
     def leave_channel(self, channel):
         # Leave a channel
@@ -191,7 +193,7 @@ class Chatbot:
                 print("Please specify a channel. Usage: !joinchannel <channel>\n")
 
         elif message.startswith("!sendmessage:"):
-            parts = message.split("", 1)
+            parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]
                 self.send_message(channel)
@@ -199,7 +201,7 @@ class Chatbot:
                 print("Please specify a channel. Usage: !sendmessage <channel>\n")
 
         elif message.startswith("!leavechannel:"):
-            parts = message.split("", 1)
+            parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]
                 self.leave_channel(channel)
@@ -207,7 +209,7 @@ class Chatbot:
                 print("Please specify a channel. Usage: !leavechannel <channel>\n")
 
         elif message.startswith("!readmessages:"):
-            parts = message.split("", 1)
+            parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]
                 self.read_messages(channel)
@@ -222,6 +224,10 @@ class Chatbot:
 
 if __name__ == "__main__":
     bot = Chatbot()
+
+    # Initialize weather data and fun facts
+    bot.store_weather_data()
+    bot.store_fun_facts()
 
     # Force user to set username and info upon opening
     print("\nBefore we begin, please enter your user info: \n")
