@@ -203,7 +203,7 @@ class Chatbot:
             else:
                 print("Please specify a channel. Usage: !joinchannel <channel>\n")
 
-        elif message.startswith("!sendmessage:"):
+        elif message.startswith("!sendmessage"):
             parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]
@@ -211,7 +211,7 @@ class Chatbot:
             else:
                 print("Please specify a channel. Usage: !sendmessage <channel>\n")
 
-        elif message.startswith("!leavechannel:"):
+        elif message.startswith("!leavechannel"):
             parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]
@@ -219,7 +219,7 @@ class Chatbot:
             else:
                 print("Please specify a channel. Usage: !leavechannel <channel>\n")
 
-        elif message.startswith("!readmessages:"):
+        elif message.startswith("!readmessages"):
             parts = message.split(" ", 1)
             if len(parts) > 1:
                 channel = parts[1]

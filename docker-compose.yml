@@ -13,9 +13,11 @@ services:
       container_name: slim-python
       depends_on:
         - redis
+      volumes:
+        - ./scripts:/app
       networks:
         - app-network
-      command: tail -f /dev/null
+      command: bash -c "pip install redis && python mp1_beema.py"  # Install redis and run script
 
 
 networks:
