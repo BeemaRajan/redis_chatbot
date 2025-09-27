@@ -90,16 +90,15 @@ class Chatbot:
         gender = self.client.hget(user_key, "gender")
         location = self.client.hget(user_key, "location")
         print(f"""User data:
-            Name: {name}
-            Age: {age}
-            Gender: {gender}
-            Location: {location}
+            Name: {name.decode('utf-8')}
+            Age: {age.decode('utf-8')}
+            Gender: {gender.decode('utf-8')}
+            Location: {location.decode('utf-8')}
         """)
     
     def join_channel(self, channel):
         # Join a channel
         self.pubsub.subscribe(channel)
-        print(f"Listening to channel: {channel} (type '!quit' to exit)...")
 
         while True:
             print(f"Listening to channel: {channel} ...")
@@ -117,6 +116,7 @@ class Chatbot:
         print(f"Sending messages to channel: {channel} (type '!quit' to exit)...")
         while True:
             message = input("Enter your message: ")
+            formatted_message = f"[{self.username}] - {message}"
             
             if message.lower() == '!quit':
                 print("Stopped sending messages.")
@@ -150,7 +150,7 @@ class Chatbot:
 
     def direct_message(self):
         # Send a direct message to the chatbot
-        print("Sending messages to me! (type '!quit' to exit) ...")
+        print("\nSending messages to me! (type '!quit' to exit) ...")
         while True:
             message = input("\nPlease enter your message: ")
             self.client.publish("chatbot:dm", message)
@@ -187,7 +187,7 @@ class Chatbot:
                 city = parts[1]
                 self.get_weather_data(city)
             else:
-                print("Please specify a city. Usage: !weather <city>\n")
+                print("\nPlease specify a city. Usage: !weather <city>\n")
 
         elif message == "!whoami":
             self.who_am_i()
@@ -201,7 +201,7 @@ class Chatbot:
                 channel = parts[1]
                 self.join_channel(channel)
             else:
-                print("Please specify a channel. Usage: !joinchannel <channel>\n")
+                print("\nPlease specify a channel. Usage: !joinchannel <channel>")
 
         elif message.startswith("!sendmessage"):
             parts = message.split(" ", 1)
@@ -209,7 +209,7 @@ class Chatbot:
                 channel = parts[1]
                 self.send_message(channel)
             else:
-                print("Please specify a channel. Usage: !sendmessage <channel>\n")
+                print("\nPlease specify a channel. Usage: !sendmessage <channel>")
 
         elif message.startswith("!leavechannel"):
             parts = message.split(" ", 1)
@@ -217,7 +217,7 @@ class Chatbot:
                 channel = parts[1]
                 self.leave_channel(channel)
             else:
-                print("Please specify a channel. Usage: !leavechannel <channel>\n")
+                print("\nPlease specify a channel. Usage: !leavechannel <channel>")
 
         elif message.startswith("!readmessages"):
             parts = message.split(" ", 1)
@@ -225,13 +225,13 @@ class Chatbot:
                 channel = parts[1]
                 self.read_messages(channel)
             else:
-                print("Please specify a channel. Usage: !readmessages <channel>\n")
+                print("\nPlease specify a channel. Usage: !readmessages <channel>")
 
         elif message == "!directmessage":
             self.direct_message()
 
         else:
-            print("Command not recognized. Use !help to see all commands.\n")
+            print("\nCommand not recognized. Use !help to see all commands.")
 
 if __name__ == "__main__":
     bot = Chatbot()
