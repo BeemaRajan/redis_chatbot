@@ -58,12 +58,12 @@ class Chatbot:
     def get_weather_data(self, city):
         # Get weather data for a particular city
         city = city.lower()
-        weather_data = self.client.hget("weather", city.decode('utf-8'))
+        weather_data = self.client.hget("weather", city)
 
         if weather_data:
-            print(f"\tWeather in {city}: {weather_data}")
+            print(f"\tWeather in {city.title()}: {weather_data.decode('utf-8')}")
         else:
-            print(f"\tWeather data for {city} is not available. Try: nashville, new york, chicago, san francisco, miami, plovdiv")
+            print(f"\tWeather data for {city.title()} is not available. Try: nashville, new york, chicago, san francisco, miami, plovdiv")
 
     def identify(self):
         # Store user details in Redis
@@ -112,13 +112,13 @@ class Chatbot:
 
     def send_message(self, channel):
         # Send a message
-        print(f"Sending messages to channel: {channel} (type '!quit' to exit)...")
+        print(f"\nSending messages to channel: {channel} (type '!quit' to exit)...")
         while True:
-            message = input("Enter your message: ")
+            message = input("\nEnter your message: ")
             formatted_message = f"[{self.username}] - {message}"
             
             if message.lower() == '!quit':
-                print("Stopped sending messages.")
+                print("\nStopped sending messages.")
                 break
                 
             self.client.publish(channel, formatted_message)
@@ -153,10 +153,10 @@ class Chatbot:
         while True:
             message = input("\nPlease enter your message: ")
             self.client.publish("chatbot:dm", message)
-            print(f"\n[{self.username.decode('utf-8')}]: {message.decode('utf-8')}")
+            print(f"\n[{self.username}]: {message}")
 
             print(f"[Redisbot]: While I would love to chat with you, I must get back to keeping track of everyone's usernames and messages!")
-            break # added the while loop so if I wanted to expand on this feature
+            break # added the while loop in case I wanted to expand on this feature
 
     def process_commands(self, message):
         # Handle special chatbot commands
