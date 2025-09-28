@@ -297,7 +297,6 @@ This project utilized Generative AI for the following purposes:
 
 #### AI-Assisted Development (≈20% of total work):
 - **Code Structure Guidance**: Assistance with Redis Python integration patterns
-- **Docker Configuration**: Help with docker-compose.yml setup and debugging
 - **Error Resolution**: Debugging assistance for Redis connection and decoding issues
 - **README Creation**: Creating and formatting comprehensive README
 
